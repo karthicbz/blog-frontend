@@ -38,7 +38,7 @@ const NavBar = ()=>{
                 <ThemeToggler onClick={toggleColorMode}>
                 {colorMode === 'light' ? 
                 <span className="material-symbols-outlined" style={{color:"teal"}}>dark_mode</span> : 
-                <span class="material-symbols-outlined" style={{color:"teal"}}>light_mode</span>}
+                <span className="material-symbols-outlined" style={{color:"teal"}}>light_mode</span>}
                 </ThemeToggler>
                 <Button colorScheme="teal" variant="outline"><Link to={"/about"}>About</Link></Button>
                 <Button colorScheme="teal" variant="outline"><Link to={"/login"}>Login</Link></Button>
