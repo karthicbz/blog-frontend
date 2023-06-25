@@ -21,7 +21,7 @@ const NewUser = ()=>{
 
     useEffect(()=>{
         const button = document.getElementById('create-acc-button');
-        if(email && password && confirmPassword){
+        if(email && password && confirmPassword && password === confirmPassword){
             button.removeAttribute('disabled');
         }else{
             button.setAttribute('disabled', '');
