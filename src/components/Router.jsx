@@ -3,6 +3,7 @@ import { NavBar } from "./Navbar";
 import { Mainpage } from "./Mainpage";
 import { LoginPage } from "./LoginPage";
 import { AboutPage } from "./AboutPage";
+import NewUser from "./NewUser";
 
 const Router = ()=>{
     return(
@@ -12,6 +13,7 @@ const Router = ()=>{
                 <Route path="/" element={<Mainpage/>}/>
                 <Route path="/about" element={<AboutPage/>}/>
                 <Route path="/login" element={<LoginPage/>}/>
+                <Route path="/user_reg" element={<NewUser/>}></Route>
             </Routes>
         </BrowserRouter>
     );
