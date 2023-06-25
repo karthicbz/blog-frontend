@@ -16,7 +16,7 @@ const LoginPage = ()=>{
                 <Input placeholder="User Id" id="userid" name="userid" type="text"></Input>
             </Box>
             <Box w="300px">
-                <Input placeholder="Password" id="password" name="password" type="password"></Input>
+                <Input placeholder="Password" id="userpassword" name="userpassword" type="password"></Input>
             </Box>
             <Box w="300px">
                 <Button colorScheme="teal" size="md" width="inherit">Login</Button>
