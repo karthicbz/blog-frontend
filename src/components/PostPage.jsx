@@ -1,8 +1,9 @@
 import { useParams } from "react-router-dom";
 import { Tabs, TabList, TabPanels, Tab, TabPanel, TabIndicator } from '@chakra-ui/react';
 import PostDetails from "./PostDetails";
+import CommentSection from "./CommentSection";
 
-const PostPage = ()=>{
+const PostPage = ({authStatus})=>{
     const params = useParams();
     return(
         <Tabs colorScheme="teal">
@@ -16,7 +17,7 @@ const PostPage = ()=>{
                 <PostDetails postId={params.postId}/>
             </TabPanel>
             <TabPanel>
-            <p>two!</p>
+                <CommentSection authStatus={authStatus}/>
             </TabPanel>
         </TabPanels>
         </Tabs>

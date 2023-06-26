@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardBody, CardFooter, Heading, Box, Text, Divider } from '@chakra-ui/react'
+import { Card, CardHeader, CardBody, CardFooter, Heading, Box, Text, Divider } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import '../App.css';
 
@@ -13,7 +13,7 @@ const PostDetails = ({postId})=>{
         // console.log(data);
         setPostTitle(data.title);
         setPostText(data.text);
-        setPublishedOn(data.formatedDateTime)
+        setPublishedOn(data.formatedDateTime);
     }
 
     useEffect(()=>{
