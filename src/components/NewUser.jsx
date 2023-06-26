@@ -51,10 +51,10 @@ const NewUser = ()=>{
                 });
                 const response = await sendCredentials.json();
                 if(response.status === 'success'){
-                localStorage.setItem('blogUserToken', JSON.stringify(response.message));
-                changeLoginStatus();
-                // console.log(response);
-                navigate('/');
+                    localStorage.setItem('blogUserToken', JSON.stringify(response));
+                    changeLoginStatus();
+                    // console.log(response);
+                    navigate('/');
                 }else{
                     toast({
                         title:'Error!',
