@@ -1,11 +1,32 @@
-import { Button, Stack, StackDivider, Textarea } from '@chakra-ui/react';
+import { Button, Stack, StackDivider, Textarea} from '@chakra-ui/react';
 import { Card, CardHeader, CardBody, CardFooter, Heading, Box, Text, Divider, useToast } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import jwt_decode from 'jwt-decode';
+import styled from '@emotion/styled';
+
+const OptionGroup = styled.div`
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+    &>span:hover{
+        cursor: pointer;
+        color: teal;
+    }
+`;
 
 const CommentSection = ({authStatus, postId})=>{
     const toast = useToast();
     const [comment, setComment] = useState('');
     const [commentDetails, setCommentDetails] = useState([]);
+
+    function checkSameUser(userId){
+        if(authStatus !== false){
+            const decoded = jwt_decode(JSON.parse(localStorage.blogUserToken).message);
+            if(decoded.userId === userId){
+                return true;
+            }
+        }
+    }
 
     function handleComment(e){
         if(authStatus === false){
@@ -94,6 +115,13 @@ const CommentSection = ({authStatus, postId})=>{
                                 <Text pt="2" fontSize="xs">
                                     {comment.formatedDateTime}
                                 </Text>
+                                {authStatus === true?
+                                    checkSameUser(comment.user._id) === true?
+                                    <OptionGroup>
+                                        <span className='material-symbols-outlined'>edit</span>
+                                        <span className='material-symbols-outlined'>delete</span>
+                                    </OptionGroup>:'':''
+                                }
                             </Box>);
                         }):
                         <p>No Comments yet...</p>
