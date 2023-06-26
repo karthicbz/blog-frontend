@@ -12,6 +12,7 @@ const Router = ()=>{
     const [authStatus, setAuthStatus] = useState(false);
 
     function changeLoginStatus(){
+        // console.log(localStorage.blogUserToken);
         (localStorage.blogUserToken)?setAuthStatus(true):setAuthStatus(false);
     }
 

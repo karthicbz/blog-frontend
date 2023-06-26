@@ -34,6 +34,10 @@ const NavBar = ({authStatus})=>{
     // const [loginStatus, setLoginStatus] = useState(useContext(LoginStatus));
     const changeLoginStatus = useContext(LoginStatus);
 
+    useEffect(()=>{
+        changeLoginStatus();
+    }, []);
+
     function deleteAuthToken(){
         destroyToken();
         // setLoginStatus(false);

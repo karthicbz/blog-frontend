@@ -1,10 +1,11 @@
-import { Button, Textarea } from '@chakra-ui/react';
+import { Button, Stack, StackDivider, Textarea } from '@chakra-ui/react';
 import { Card, CardHeader, CardBody, CardFooter, Heading, Box, Text, Divider, useToast } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const CommentSection = ({authStatus, postId})=>{
     const toast = useToast();
     const [comment, setComment] = useState('');
+    const [commentDetails, setCommentDetails] = useState([]);
 
     function handleComment(e){
         if(authStatus === false){
@@ -19,6 +20,17 @@ const CommentSection = ({authStatus, postId})=>{
             setComment(e.target.value);
         }
     }
+
+    async function getCommentDetails(){
+        const response = await fetch(`http://localhost:3001/blog/posts/${postId}/comments`);
+        const data = await response.json();
+        // console.log(data);
+        setCommentDetails(data);
+    }
+
+    useEffect(()=>{
+        getCommentDetails();
+    }, []);
 
     async function saveComment(){
         const parsedData = JSON.parse(localStorage.blogUserToken);
@@ -41,6 +53,8 @@ const CommentSection = ({authStatus, postId})=>{
                 isClosable:false,
             })
         }else{
+            setComment('');
+            await getCommentDetails();
             toast({
                 title:'Comment Saved',
                 // description:`${data.message}`,
@@ -67,9 +81,24 @@ const CommentSection = ({authStatus, postId})=>{
                     }
                 </Box>
                 <Divider pt='4'/>
-                <Box pt='4'>
-                    <p>No comments yet..</p>
-                </Box>
+                <Stack divider={<StackDivider/>} spacing="4">
+                    {commentDetails.length !== 0?
+                        commentDetails.map(comment=>{
+                            return(<Box pt="4">
+                                <Heading size="xs" textTransform="uppercase">
+                                    {comment.user.username}
+                                </Heading>
+                                <Text pt="2" fontSize="md">
+                                    {comment.comment}
+                                </Text>
+                                <Text pt="2" fontSize="xs">
+                                    {comment.formatedDateTime}
+                                </Text>
+                            </Box>);
+                        }):
+                        <p>No Comments yet...</p>
+                    }
+                </Stack>
             </CardBody>
         </Card>
     );
