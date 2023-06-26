@@ -17,7 +17,7 @@ const PostPage = ({authStatus})=>{
                 <PostDetails postId={params.postId}/>
             </TabPanel>
             <TabPanel>
-                <CommentSection authStatus={authStatus}/>
+                <CommentSection authStatus={authStatus} postId={params.postId}/>
             </TabPanel>
         </TabPanels>
         </Tabs>

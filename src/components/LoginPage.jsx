@@ -41,7 +41,7 @@ const LoginPage = ()=>{
         if(data.status === 'success'){
             localStorage.setItem('blogUserToken', JSON.stringify(data));
             changeLoginStatus();
-            navigate('/');
+            navigate(-1);
         }else{
             toast({
                 title:'Error!',
