@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 const NewUser = ()=>{
     const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const toast = useToast();
@@ -19,26 +20,31 @@ const NewUser = ()=>{
         setConfirmPassword(e.target.value);
     }
 
+    function handleUsername(e){
+        setUsername(e.target.value);
+    }
+
     useEffect(()=>{
         const button = document.getElementById('create-acc-button');
-        if(email && password && confirmPassword && password === confirmPassword){
+        if(email && password && confirmPassword && username && password === confirmPassword){
             button.removeAttribute('disabled');
         }else{
             button.setAttribute('disabled', '');
         }
-    }, [email,password,confirmPassword])
+    }, [email,password,confirmPassword, username])
 
     async function saveUserCredentials(){
-        if(email && password && confirmPassword){
+        if(email && password && confirmPassword && username){
             const sendCredentials = await fetch('http://localhost:3001/blog/posts/user/new', {
                 method:"POST", 
                 headers:{
                     "Content-Type": "application/json",
                 },
                 mode:"cors",
-                body:JSON.stringify({'email':`${email}`, 'password':`${password}`}),
+                body:JSON.stringify({'email':`${email}`, 'username':`${username}`, 'password':`${password}`}),
             });
-            console.log(sendCredentials.body);
+            const response = await sendCredentials.json();
+            console.log(response);
         }else{
             toast({
                 title:'Error.',
@@ -64,6 +70,16 @@ const NewUser = ()=>{
             </Box>
             <Box w="300px">
                 <Input 
+                placeholder="Username" 
+                name="newusername" 
+                id="newusername" 
+                type="text"  
+                onChange={handleUsername}
+                value={username}
+                required />
+            </Box>
+            <Box w="300px">
+                <Input 
                 placeholder="Password" 
                 name="newpassword" 
                 id="newpassword" 
@@ -83,7 +99,7 @@ const NewUser = ()=>{
                 required />
             </Box>
             <Box>
-                <Button w="300px" colorScheme="teal" onClick={saveUserCredentials} id="create-acc-button" isDisabled>Create Account</Button>
+                <Button w="300px" colorScheme="teal" onClick={saveUserCredentials} id="create-acc-button">Create Account</Button>
             </Box>
         </Flex>
     );

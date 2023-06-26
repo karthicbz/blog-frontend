@@ -23,7 +23,7 @@ const Mainpage = ()=>{
     }
 
     useEffect(()=>{
-        // getPostDetails();
+        getPostDetails();
     }, []);
 
     return(
