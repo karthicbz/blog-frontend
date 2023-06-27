@@ -171,7 +171,7 @@ const CommentSection = ({authStatus, postId})=>{
                                     </Text>
                                     {authStatus === true?
                                         //if jwt decoded userid and current user user id same show edit options
-                                        checkSameUser(comment.user._id) === true?
+                                        checkSameUser(comment.user._id) === true && comment.removed !== true?
                                         <OptionGroup>
                                             <span className='material-symbols-outlined' onClick={editMode}>edit</span>
                                             <span className='material-symbols-outlined' onClick={deleteMode}>delete</span>
