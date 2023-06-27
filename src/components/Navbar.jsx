@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Heading } from "@chakra-ui/react";
+import { ButtonGroup, Heading } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { useColorMode } from "@chakra-ui/react";
@@ -19,7 +19,7 @@ const Nav = styled.nav`
 
 const FlexUL = styled.ul`
     display: flex;
-    gap: 1rem;
+    gap: 10px;
     align-items: center;
 `;
 
@@ -27,6 +27,9 @@ const ThemeToggler = styled.button`
     border: none;
     background-color: unset;
     align-self: end;
+    &>span{
+        margin-top: 5px;
+    }
 `;
 
 const NavBar = ({authStatus})=>{
@@ -55,9 +58,9 @@ const NavBar = ({authStatus})=>{
                 <span className="material-symbols-outlined" style={{color:"teal"}}>dark_mode</span> : 
                 <span className="material-symbols-outlined" style={{color:"teal"}}>light_mode</span>}
                 </ThemeToggler>
-                <Button colorScheme="teal" variant="outline"><Link to={"/about"}>About</Link></Button>
+                <Button colorScheme="teal" variant="outline" size='sm'><Link to={"/about"}>About</Link></Button>
                 {authStatus === false?
-                <Button colorScheme="teal" variant="outline"><Link to={"/login"}>Login</Link></Button>:
+                <Button colorScheme="teal" variant="outline" size='sm'><Link to={"/login"}>Login</Link></Button>:
                 <Button colorScheme="teal" variant="outline" onClick={deleteAuthToken}>Logout</Button>
                 }
             </FlexUL>
