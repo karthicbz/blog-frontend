@@ -1,4 +1,4 @@
-import { Box, Textarea, Button, ButtonGroup } from "@chakra-ui/react";
+import { Box, Textarea, Button, ButtonGroup, useToast } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { useState } from "react";
 
@@ -12,11 +12,40 @@ const EditBox = styled.div`
     margin: 4px 0;
 `;
 
-const CommentEditBox = ({commentText, commentId})=>{
+const CommentEditBox = ({commentText, commentId, refreshComments})=>{
     const [updatedComment, setUpdatedComment] = useState(commentText);
+    const toast = useToast();
 
-    function handleUpdate(){
-        console.log('clicked update');
+    async function handleUpdate(e){
+        // console.log('clicked update');
+        const response = await fetch(`http://localhost:3001/blog/posts/comments/${commentId}/update`,
+        {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            mode:'cors',
+            body:JSON.stringify({
+                updatedComment:`${updatedComment}`
+            }),
+        });
+        const data = await response.json();
+        if(data.status === 'success'){
+            toast({
+                title:'Comment Updated',
+                status:'success',
+                duration:'2000',
+                isClosable:false,
+            })
+            await refreshComments();
+            handleCancel(e)
+        }else{
+            toast({
+                title:'Error',
+                description:'Unable to update comment',
+                duration: '2000',
+                isClosable:false,
+            })
+        }
+
     }
 
     function handleCancel(e){

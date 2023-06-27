@@ -178,7 +178,7 @@ const CommentSection = ({authStatus, postId})=>{
                                         </OptionGroup>:'':''
                                     }
                                 </Box>
-                                <CommentEditBox commentId={comment._id} commentText={comment.comment}/>
+                                <CommentEditBox commentId={comment._id} commentText={comment.comment} refreshComments={getCommentDetails}/>
                             </Box>
                             );
                         }):
