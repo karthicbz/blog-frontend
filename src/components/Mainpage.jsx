@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, useToast } from "@chakra-ui/react";
 import { Card, CardHeader, CardBody } from "@chakra-ui/react";
 import { Heading } from "@chakra-ui/react";
 import { Stack, StackDivider } from "@chakra-ui/react";
@@ -7,12 +7,17 @@ import { Link } from "react-router-dom";
 
 const Mainpage = ()=>{
     const [postDetails, setPostDetails] = useState([]);
+    const toast = useToast();
 
     const getPostDetails = async()=>{
-        const response = await fetch('http://localhost:3001/blog/posts');
-        const postData = await response.json();
-        // console.log(postData);
-        setPostDetails(postData);
+        try{
+            const response = await fetch('http://localhost:3001/blog/posts');
+            const postData = await response.json();
+            // console.log(postData);
+            setPostDetails(postData);
+        }catch(err){
+            setPostDetails([]);
+        }
     }
 
     function convertToHtml(s){
