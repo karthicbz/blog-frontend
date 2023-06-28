@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
 import { NavBar } from "./Navbar";
 import { Mainpage } from "./Mainpage";
 import { LoginPage } from "./LoginPage";
@@ -17,7 +17,7 @@ const Router = ()=>{
     }
 
     return(
-        <BrowserRouter>
+        <HashRouter>
         <LoginStatus.Provider value={changeLoginStatus}>
             <NavBar authStatus={authStatus}/>
             <Routes>
@@ -28,7 +28,7 @@ const Router = ()=>{
                 <Route path="/post/:postId" element={<PostPage authStatus={authStatus}/>}></Route>
             </Routes>
         </LoginStatus.Provider>
-        </BrowserRouter>
+        </HashRouter>
     );
 }
 
