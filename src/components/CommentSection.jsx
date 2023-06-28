@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import jwt_decode from 'jwt-decode';
 import styled from '@emotion/styled';
 import CommentEditBox from './CommentEditBox';
+import Spinner from './Spinner';
 
 const OptionGroup = styled.div`
     display: flex;
@@ -20,6 +21,7 @@ const CommentSection = ({authStatus, postId})=>{
     const [comment, setComment] = useState('');
     const [commentDetails, setCommentDetails] = useState([]);
     let [deleteCount, setDeleteCount] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
 
     //this method decode jwt and compare current logged in used with decoded user id
     function checkSameUser(userId){
@@ -47,12 +49,13 @@ const CommentSection = ({authStatus, postId})=>{
 
     //function which get all comments for the post
     async function getCommentDetails(){
-        const response = await fetch(`http://localhost:3001/blog/posts/${postId}/comments`);
+        const response = await fetch(`https://blogapi-1ei1.onrender.com/blog/posts/${postId}/comments`, {"mode":"cors"});
         const data = await response.json();
         // console.log(data);
         setCommentDetails(data);
     }
 
+    //this one hides the actual edit box with another prepopulated edit box
     function editMode(e){
         const editBox = e.target.parentNode.parentNode.parentNode.childNodes[1];
         const currentComment = e.target.parentNode.parentNode;
@@ -70,7 +73,7 @@ const CommentSection = ({authStatus, postId})=>{
         }, 5000);
         if(deleteCount === 2){
             // console.log('comment deleted');
-            const response = await fetch(`http://localhost:3001/blog/posts/${postId}/comments/${e.target.parentNode.parentNode.id}/delete`);
+            const response = await fetch(`https://blogapi-1ei1.onrender.com/blog/posts/${postId}/comments/${e.target.parentNode.parentNode.id}/delete`, {"mode":"cors"});
             const data = await response.json();
             if(data.status === 'success'){
                 toast({
@@ -106,35 +109,48 @@ const CommentSection = ({authStatus, postId})=>{
     }, []);
 
     async function saveComment(){
-        const parsedData = JSON.parse(localStorage.blogUserToken);
-        // const decoded = jwt.verify(parsedData.message, process.env.JWT_SECRET);
-        const sendComment = await fetch(`http://localhost:3001/blog/posts/${postId}/comment/new`,
-        {
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            mode:"cors",
-            body: JSON.stringify({'postcomment':`${comment}`, 'userId':`${parsedData.message}`, 'postId':`${postId}`}),
-        })
-        const data = await sendComment.json();
-        // console.log(data.status);
-        if(data.status !== 'success'){
+        if(comment !== '' && comment.length !== 0){
+            setIsLoading(true);
+            const parsedData = JSON.parse(localStorage.blogUserToken);
+            // const decoded = jwt.verify(parsedData.message, process.env.JWT_SECRET);
+            const sendComment = await fetch(`https://blogapi-1ei1.onrender.com/blog/posts/${postId}/comment/new`,
+            {
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                mode:"cors",
+                body: JSON.stringify({'postcomment':`${comment}`, 'userId':`${parsedData.message}`, 'postId':`${postId}`}),
+            })
+            const data = await sendComment.json();
+            // console.log(data.status);
+            if(data.status !== 'success'){
+                toast({
+                    title:'error',
+                    description:`${data.message}`,
+                    status:'error',
+                    duration:'2000',
+                    isClosable:false,
+                })
+                setIsLoading(false);
+            }else{
+                setComment('');
+                await getCommentDetails();
+                toast({
+                    title:'Comment posted 😎',
+                    // description:`${data.message}`,
+                    status:'success',
+                    duration:'2000',
+                    isClosable:false,
+                })
+                setIsLoading(false);
+            }
+        }else{
             toast({
-                title:'error',
-                description:`${data.message}`,
+                title:'Empty comment 😒',
+                description: 'Empty comments are not allowed',
                 status:'error',
                 duration:'2000',
                 isClosable:false,
-            })
-        }else{
-            setComment('');
-            await getCommentDetails();
-            toast({
-                title:'Comment Saved',
-                // description:`${data.message}`,
-                status:'success',
-                duration:'2000',
-                isClosable:false,
-            })
+            });
         }
     }
 
@@ -150,7 +166,7 @@ const CommentSection = ({authStatus, postId})=>{
                     value={comment}/>
                     {authStatus === false?
                     <Button colorScheme='teal' mt='4' isDisabled>Post Comment</Button>:
-                    <Button colorScheme='teal' mt='4' onClick={saveComment}>Post Comment</Button>
+                    <Button colorScheme='teal' mt='4' onClick={saveComment}>{isLoading?<Spinner/>:'Post Comment'}</Button>
                     }
                 </Box>
                 <Divider pt='4'/>

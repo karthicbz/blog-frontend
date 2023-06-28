@@ -3,6 +3,7 @@ import { Link,  useNavigate} from "react-router-dom";
 import styled from "@emotion/styled";
 import { useEffect, useState, useContext } from "react";
 import { LoginStatus } from "./Router";
+import Spinner from "./Spinner";
 
 const Linkp = styled.p`
     color: teal;
@@ -14,6 +15,7 @@ const Linkp = styled.p`
 const LoginPage = ()=>{
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const changeLoginStatus = useContext(LoginStatus);
     const toast = useToast();
     const navigate = useNavigate();
@@ -28,7 +30,8 @@ const LoginPage = ()=>{
     }, [username, password])
 
     async function checkValidUser(){
-        const response = await fetch('http://localhost:3001/blog/posts/login/auth', 
+        setIsLoading(true);
+        const response = await fetch('https://blogapi-1ei1.onrender.com/blog/posts/login/auth', 
         {
             method:'POST',
             headers:{
@@ -39,10 +42,13 @@ const LoginPage = ()=>{
         });
         const data = await response.json();
         if(data.status === 'success'){
+            setIsLoading(false);
+            localStorage.setItem('userLoggedIn', username);
             localStorage.setItem('blogUserToken', JSON.stringify(data));
             changeLoginStatus();
             navigate(-1);
         }else{
+            setIsLoading(false);
             toast({
                 title:'Error!',
                 description:data.message,
@@ -82,7 +88,7 @@ const LoginPage = ()=>{
                 width="inherit" 
                 id="login-button"
                 onClick={checkValidUser}
-                >Login</Button>
+                >{isLoading?<Spinner/>:'Login'}</Button>
             </Box>
             <Box>
                 <Link to={"/user_reg"}><Linkp>Create Account</Linkp></Link>

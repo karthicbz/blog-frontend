@@ -30,6 +30,12 @@ const ThemeToggler = styled.button`
     }
 `;
 
+const P = styled.p`
+    color: teal;
+    font-size: 1.3rem;
+    font-weight: 700;
+`;
+
 const NavBar = ({authStatus})=>{
     const {colorMode, toggleColorMode} = useColorMode();
     // const [loginStatus, setLoginStatus] = useState(useContext(LoginStatus));
@@ -56,6 +62,7 @@ const NavBar = ({authStatus})=>{
                 <span className="material-symbols-outlined" style={{color:"teal"}}>dark_mode</span> : 
                 <span className="material-symbols-outlined" style={{color:"teal"}}>light_mode</span>}
                 </ThemeToggler>
+                {localStorage.userLoggedIn?<P>{localStorage.userLoggedIn}</P>:<P>Stranger</P>}
                 <Button colorScheme="teal" variant="outline" size='sm'><Link to={"/about"}>About</Link></Button>
                 {authStatus === false?
                 <Button colorScheme="teal" variant="outline" size='sm'><Link to={"/login"}>Login</Link></Button>:

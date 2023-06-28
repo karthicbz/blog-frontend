@@ -8,7 +8,7 @@ const PostDetails = ({postId})=>{
     const [publishedOn, setPublishedOn] = useState('');
 
     async function getPostDetail(){
-        const response = await fetch(`http://localhost:3001/blog/posts/${postId}`);
+        const response = await fetch(`https://blogapi-1ei1.onrender.com/blog/posts/${postId}`, {"mode":"cors"});
         const data = await response.json();
         // console.log(data);
         setPostTitle(data.title);

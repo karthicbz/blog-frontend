@@ -41,7 +41,7 @@ const NewUser = ()=>{
     async function saveUserCredentials(e){
         if(email && password && confirmPassword && username){
             try{
-                const sendCredentials = await fetch('http://localhost:3001/blog/posts/user/new', {
+                const sendCredentials = await fetch('https://blogapi-1ei1.onrender.com/blog/posts/user/new', {
                     method:"POST", 
                     headers:{
                         "Content-Type": "application/json",

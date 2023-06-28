@@ -11,7 +11,7 @@ const Mainpage = ()=>{
 
     const getPostDetails = async()=>{
         try{
-            const response = await fetch('http://localhost:3001/blog/posts');
+            const response = await fetch('https://blogapi-1ei1.onrender.com/blog/posts', {"mode":"cors"});
             const postData = await response.json();
             // console.log(postData);
             setPostDetails(postData);
@@ -36,7 +36,7 @@ const Mainpage = ()=>{
             {postDetails.length>0?
             <Card>
                 <CardHeader>
-                    <Heading size="md">Welcome to my awesone blog...</Heading>
+                    <Heading size="md">Welcome to my awesone blog {localStorage.userLoggedIn?`${localStorage.userLoggedIn}...`:'Stranger...'}</Heading>
                 </CardHeader>
                 <CardBody>
                     <Stack divider={<StackDivider/>} spacing="4">

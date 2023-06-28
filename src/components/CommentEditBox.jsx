@@ -1,6 +1,7 @@
 import { Box, Textarea, Button, ButtonGroup, useToast } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { useState } from "react";
+import Spinner from "./Spinner";
 
 const EditBox = styled.div`
     // opacity: 0;
@@ -14,38 +15,51 @@ const EditBox = styled.div`
 
 const CommentEditBox = ({commentText, commentId, refreshComments})=>{
     const [updatedComment, setUpdatedComment] = useState(commentText);
+    const [isLoading, setIsLoading] = useState(false);
     const toast = useToast();
 
     async function handleUpdate(e){
         // console.log('clicked update');
-        const response = await fetch(`http://localhost:3001/blog/posts/comments/${commentId}/update`,
-        {
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            mode:'cors',
-            body:JSON.stringify({
-                updatedComment:`${updatedComment}`
-            }),
-        });
-        const data = await response.json();
-        if(data.status === 'success'){
-            toast({
-                title:'Comment Updated',
-                status:'success',
-                duration:'2000',
-                isClosable:false,
-            })
-            await refreshComments();
-            handleCancel(e)
+        if(updatedComment !== '' && updatedComment.length > 0){
+            setIsLoading(true);
+            const response = await fetch(`https://blogapi-1ei1.onrender.com/blog/posts/comments/${commentId}/update`,
+            {
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                mode:'cors',
+                body:JSON.stringify({
+                    updatedComment:`${updatedComment}`
+                }),
+            });
+            const data = await response.json();
+            if(data.status === 'success'){
+                setIsLoading(false);
+                toast({
+                    title:'Comment Updated',
+                    status:'success',
+                    duration:'2000',
+                    isClosable:false,
+                })
+                await refreshComments();
+                handleCancel(e)
+            }else{
+                setIsLoading(false);
+                toast({
+                    title:'Error',
+                    description:'Unable to update comment',
+                    duration: '2000',
+                    isClosable:false,
+                })
+            }
         }else{
             toast({
-                title:'Error',
-                description:'Unable to update comment',
+                title:'Not Allowed 😒',
+                description:'Empty comments are not allowed',
+                status:'error',
                 duration: '2000',
                 isClosable:false,
             })
         }
-
     }
 
     function handleCancel(e){
@@ -65,7 +79,7 @@ const CommentEditBox = ({commentText, commentId, refreshComments})=>{
             value={updatedComment}
             onChange={(e)=>setUpdatedComment(e.target.value)}/>
             <ButtonGroup>
-                <Button colorScheme='teal' mt='4' onClick={handleUpdate} size='xs'>Update</Button>
+                <Button colorScheme='teal' mt='4' onClick={handleUpdate} size='xs'>{isLoading?<Spinner/>:'Update'}</Button>
                 <Button colorScheme='teal' mt='4' onClick={handleCancel} size='xs'>Cancel</Button>
             </ButtonGroup>
         </EditBox>
