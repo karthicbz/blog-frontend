@@ -1,13 +1,11 @@
 import styled from "@emotion/styled";
-import { ButtonGroup, Heading } from "@chakra-ui/react";
+import { Heading } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { useColorMode } from "@chakra-ui/react";
-import dark from "../assets/icons/dark_mode.svg";
-import light from "../assets/icons/light_mode.svg";
 import destroyToken from "../scripts/destroyToken";
-import { useEffect, useState, useContext } from "react";
-import { LoginStatus, Router } from "./Router";
+import { useEffect, useContext } from "react";
+import { LoginStatus } from "./Router";
 
 const Nav = styled.nav`
     height: 80px;
@@ -61,7 +59,7 @@ const NavBar = ({authStatus})=>{
                 <Button colorScheme="teal" variant="outline" size='sm'><Link to={"/about"}>About</Link></Button>
                 {authStatus === false?
                 <Button colorScheme="teal" variant="outline" size='sm'><Link to={"/login"}>Login</Link></Button>:
-                <Button colorScheme="teal" variant="outline" onClick={deleteAuthToken}>Logout</Button>
+                <Button colorScheme="teal" variant="outline" size='sm' onClick={deleteAuthToken}>Logout</Button>
                 }
             </FlexUL>
         </Nav>
