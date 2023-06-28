@@ -4,18 +4,30 @@ import { Card, CardHeader, CardBody } from "@chakra-ui/react";
 import { Heading } from "@chakra-ui/react";
 import { Stack, StackDivider } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import SkeletonLoading from "./SkeletonText";
 
 const Mainpage = ()=>{
     const [postDetails, setPostDetails] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     const toast = useToast();
 
     const getPostDetails = async()=>{
         try{
+            setIsLoading(true);
             const response = await fetch('https://blogapi-1ei1.onrender.com/blog/posts', {"mode":"cors"});
             const postData = await response.json();
             // console.log(postData);
             setPostDetails(postData);
+            setIsLoading(false);
         }catch(err){
+            setIsLoading(false);
+            toast({
+                title:'Error',
+                description:'Error fetching data, check your connection',
+                status:'error',
+                duration:'9000',
+                isClosable:true,
+            })
             setPostDetails([]);
         }
     }
@@ -33,11 +45,11 @@ const Mainpage = ()=>{
 
     return(
         <Box w="100%" color="white" p="8">
-            {postDetails.length>0?
             <Card>
                 <CardHeader>
                     <Heading size="md">Welcome to my awesone blog {localStorage.userLoggedIn?`${localStorage.userLoggedIn}...`:'Stranger...'}</Heading>
                 </CardHeader>
+                {isLoading?<SkeletonLoading/>: postDetails.length>0?
                 <CardBody>
                     <Stack divider={<StackDivider/>} spacing="4">
                         {postDetails.map(post=>{
@@ -51,8 +63,8 @@ const Mainpage = ()=>{
                             </Box>)
                         })}
                     </Stack>
-                </CardBody>
-            </Card>:<Text fontSize="3xl">No Posts Yet..</Text>}
+                </CardBody>:<Text fontSize="3xl">No Posts Yet..</Text>}
+            </Card>
         </Box>
     );
 }
