@@ -10,7 +10,8 @@ This blog has the features which consists of
 * user can edit and remove the posted comment unless it is not deleted by owner of the post.
 * user can toggle between dark and light theme 😉
 
-Live link [blog-api(frontend)](https://example.com)
+Live link [blog-api (frontend)](https://github.com/karthicbz/blog-frontend)<br>
+Link to my backend [blog-api (backend)](https://blogapi-1ei1.onrender.com)
 
 ## Build with
 

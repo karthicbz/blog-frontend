@@ -13,6 +13,18 @@ const Nav = styled.nav`
     justify-content: space-between;
     padding: 0 1rem;
     align-items: center;
+
+    @media screen and (max-width: 414px){
+        .navBar-button{
+            font-size: 0.75rem;
+            height: 1.5rem;
+            min-width: 1.5rem;
+        }
+
+        .blog-name{
+            font-size: 1.4rem;
+        }
+    }
 `;
 
 const FlexUL = styled.ul`
@@ -34,6 +46,11 @@ const P = styled.p`
     color: teal;
     font-size: 1.3rem;
     font-weight: 700;
+
+    @media screen and (max-width: 414px){
+        font-size: 0.9rem;
+        font-weight: 400;
+    }
 `;
 
 const NavBar = ({authStatus})=>{
@@ -54,7 +71,7 @@ const NavBar = ({authStatus})=>{
     return(
         <Nav>
             <Heading as="h3" size="lg" color="teal">
-                <Link to={"/"}>PK's Blog</Link>
+                <Link to={"/"} className="blog-name">PK's Blog</Link>
             </Heading>
             <FlexUL>
                 <ThemeToggler onClick={toggleColorMode}>
@@ -63,10 +80,10 @@ const NavBar = ({authStatus})=>{
                 <span className="material-symbols-outlined" style={{color:"teal"}}>light_mode</span>}
                 </ThemeToggler>
                 {localStorage.userLoggedIn?<P>{localStorage.userLoggedIn}</P>:<P>Stranger</P>}
-                <Button colorScheme="teal" variant="outline" size='sm'><Link to={"/about"}>About</Link></Button>
+                <Button colorScheme="teal" variant="outline" size='sm' className="navBar-button"><Link to={"/about"}>About</Link></Button>
                 {authStatus === false?
-                <Button colorScheme="teal" variant="outline" size='sm'><Link to={"/login"}>Login</Link></Button>:
-                <Button colorScheme="teal" variant="outline" size='sm' onClick={deleteAuthToken}>Logout</Button>
+                <Button colorScheme="teal" variant="outline" size='sm' className="navBar-button"><Link to={"/login"}>Login</Link></Button>:
+                <Button colorScheme="teal" variant="outline" size='sm' className="navBar-button" onClick={deleteAuthToken}>Logout</Button>
                 }
             </FlexUL>
         </Nav>

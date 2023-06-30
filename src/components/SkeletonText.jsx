@@ -3,14 +3,15 @@ import { Skeleton, Stack, StackDivider } from '@chakra-ui/react'
 const SkeletonLoading = ()=>{
     return(
         <Stack>
-            <Skeleton height='40px' />
             <Skeleton height='20px' />
+            <Skeleton height='60px' />
             <StackDivider/>
-            <Skeleton height='40px' />
             <Skeleton height='20px' />
+            <Skeleton height='60px' />
             <StackDivider/>
-            <Skeleton height='40px' />
             <Skeleton height='20px' />
+            <Skeleton height='60px' />
+            <StackDivider/>
         </Stack>
     );
 }

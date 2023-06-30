@@ -47,7 +47,7 @@ const Mainpage = ()=>{
         <Box w="100%" color="white" p="8">
             <Card>
                 <CardHeader>
-                    <Heading size="md">Welcome to my awesone blog {localStorage.userLoggedIn?`${localStorage.userLoggedIn}...`:'Stranger...'}</Heading>
+                    <Heading size="md">Welcome to my awesome blog {localStorage.userLoggedIn?`${localStorage.userLoggedIn}...`:'Stranger...'}</Heading>
                 </CardHeader>
                 {isLoading?<SkeletonLoading/>: postDetails.length>0?
                 <CardBody>
